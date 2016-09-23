@@ -135,24 +135,3 @@ main = putStr $ compose_results results
     results = game_play 5 3 [(1, 1, E, [R, F, R, F, R, F, R, F]),
                              (3, 2, N, [F, R, R, F, L, L, F, F, R, R, F, L, L]),
                              (0, 3, W, [L, L, F, F, F, L, F, L, F, L])]
-
-  -- header <- getLine
-  -- print header
-
-  -- let
-  --   w:h:[] = T.splitOn (T.pack " ") (T.pack header)
-  -- print w
-
-  -- let results = game_play 10 20 [(0, 0, N, [F, R, F])]
-  -- print compose_results results
-
--- parse_input :: String -> Routes
--- parse_input =
-
--- main :: IO ()
--- main = do
---   let
---     results = game_play 10 20 [(0, 0, N, [F, R, F])]
---     output = compose_results results
---   putStr output
---   putStr
