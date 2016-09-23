@@ -1,9 +1,15 @@
 
+import qualified Data.Text as T
+import Text.Printf
+import Data.List
+
+
 data Cmd = F | L | R deriving (Eq)
 data Ori = N | E | S | W deriving (Show)
 data Robot = Robot Int Int Ori deriving (Show)
 data World = World Int Int [(Int, Int)]
 type Route = (Int, Int, Ori, [Cmd])
+type Routes = [Route]
 type Result = (Bool, Robot)
 type Results = [Result]
 
@@ -39,6 +45,13 @@ rotate S L = E
 rotate S R = W
 rotate W L = S
 rotate W R = N
+
+
+ori_text :: Ori -> String
+ori_text N = "N"
+ori_text E = "E"
+ori_text S = "S"
+ori_text W = "W"
 
 
 rotate_robot :: Robot -> Cmd -> Robot
@@ -102,7 +115,44 @@ game_play w h routes = iterate world routes []
           iterate world_new routes_rest results_new
 
 
+strip = T.unpack . T.strip . T.pack
+
+
+compose_results :: Results -> String
+compose_results results = intercalate "\n" nodes ++ "\n"
+  where
+    get_node :: Result -> String
+    get_node result = strip $ printf "%d %d %s %s" x y (ori_text ori) lost
+      where
+        (flag, (Robot x y ori)) = result
+        lost = if flag then "" else "LOST"
+    nodes = map get_node results
+
+
+parse_input :: String -> Routes
+parse_input =
+
+
+-- main :: IO ()
+-- main = do
+--   let
+--     results = game_play 10 20 [(0, 0, N, [F, R, F])]
+--     output = compose_results results
+--   putStr output
+--   putStr
+
+
 main :: IO ()
-main = do
-  let results = game_play 10 20 [(0, 0, N, [F, R, F])]
-  print results
+main = putStr $ compose_results results
+  where
+    results = game_play 10 20 [(0, 0, N, [F, R, F])]
+
+  -- header <- getLine
+  -- print header
+
+  -- let
+  --   w:h:[] = T.splitOn (T.pack " ") (T.pack header)
+  -- print w
+
+  -- let results = game_play 10 20 [(0, 0, N, [F, R, F])]
+  -- print compose_results results
