@@ -1,0 +1,3 @@
+
+build:
+	ghc task.hs
